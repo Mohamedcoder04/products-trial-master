@@ -1,0 +1,118 @@
+<div class="overflow-x-auto">
+  <table mat-table [dataSource]="dataSource">
+    <form [formGroup]="filterForm">
+      <ng-container *ngFor="let displayedFilter of displayedFilters; trackBy: trackByFn">
+        <ng-container [matColumnDef]="displayedFilter.columnValue">
+          <th class="w-auto" mat-header-cell *matHeaderCellDef>
+            <div *ngIf="displayedFilter.viewValue" class="flex space-x-1">
+              <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+              <input class="w-full"
+                     [type]="displayedFilter.type"
+                     (focus)="setupFilter(displayedFilter.value)"
+                     [formControlName]="displayedFilter.value"
+                     [placeholder]="displayedFilter.viewValue">
+            </div>
+          </th>
+        </ng-container>
+      </ng-container>
+    </form>
+
+    <ng-container *ngFor="let column of columns" class="max-w-[100px]">
+      <ng-container [matColumnDef]="column.name">
+        <ng-container *ngIf="column.sort; else noSort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.headerValue }}</th>
+        </ng-container>
+        <ng-template #noSort>
+          <th mat-header-cell *matHeaderCellDef>{{ column.headerValue }}</th>
+        </ng-template>
+        <ng-container *ngIf="column.rowValue">
+          <td mat-cell [style.background-color]="column?.backgroundColor ? column?.backgroundColor(element):''"
+              *matCellDef="let element">
+            <div [class]="column.rowValueStyle ? column.rowValueStyle(element): ''">
+              {{ column.rowValue(element) }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="!column.rowValue">
+          <td mat-cell [style.background-color]="column?.backgroundColor ? column?.backgroundColor(element):''"
+              *matCellDef="let element">
+            <div [class]="column.rowValueStyle ? column.rowValueStyle(element): ''">{{ element[column.name] }}</div>
+          </td>
+        </ng-container>
+
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="actions?.length">
+      <ng-container *ngIf="actions.length > 1" matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            *ngIf="isAvailableActions(element)"
+            (click)="$event.stopPropagation()"
+            [matMenuTriggerFor]="actionsMenu"
+            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+            mat-stroked-button>
+            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:ellipsis-horizontal'"></mat-icon>
+          </button>
+
+          <mat-menu #actionsMenu="matMenu" [xPosition]="'before'" class="custom-with">
+            <ng-container *ngFor="let action of actions">
+              <button
+                *ngIf="!action.hidden || !action.hidden(element)"
+                (click)="takeAction(action.name, element)"
+                [class]="action.color"
+                mat-menu-item>
+                <mat-icon [class]="action.color" [svgIcon]="action.icon"></mat-icon>
+                {{ action.label }}
+              </button>
+            </ng-container>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="actions.length === 1" matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            *ngIf="!actions[0].hidden "
+            (click)="takeAction(actions[0].name, element)"
+            [class]="actions[0].color"
+            mat-menu-item>
+            <mat-icon [class]="actions[0].color" [svgIcon]="actions[0].icon"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="includeFilters">
+      <tr mat-header-row *matHeaderRowDef="getFilterColumnValues(displayedFilters)"></tr>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row class="cursor-pointer" *matRowDef="let row; columns: displayedColumns;"
+        (click)="selectRow(row)"></tr>
+    <tr *matNoDataRow class="border-[1px] border-[#e2e8f0] h-14">
+      <td [attr.colspan]="displayedColumns.length" class="text-xl font-bold text-center">
+        Aucune donnée
+      </td>
+    </tr>
+  </table>
+</div>
+<ng-container *ngIf="includePagination">
+  <ng-container *ngIf="!pagination">
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                   aria-label="Select page">
+    </mat-paginator>
+  </ng-container>
+  <ng-container *ngIf="pagination ">
+    <mat-paginator (page)="triggerPaginationChange($event)"
+                   [length]="pagination.totalElements"
+                   [pageIndex]="pagination.number"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [pageSize]="pagination.size"
+                   aria-label="Select page">
+    </mat-paginator>
+  </ng-container>
+</ng-container>
+

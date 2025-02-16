@@ -1,0 +1,33 @@
+<p-toolbar *ngIf="(isLogged | async)" [style]="{ height: '80px' }">
+  <div class="p-toolbar-group-start">
+    <img src="assets/icons/icon-72x72.png" alt="logo"/>
+  </div>
+  <div class="p-toolbar-group-center">
+    {{ title }}
+  </div>
+  <div class="p-toolbar-group-end flex ">
+    <app-panier></app-panier>
+    <app-user></app-user>
+  </div>
+</p-toolbar>
+<p-splitter *ngIf="(isLogged | async); else fullScreen"
+            [panelSizes]="[10, 80]"
+
+>
+  <ng-template pTemplate>
+    <div class="w-full">
+      <app-panel-menu/>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="w-full h-screen p-4 " [style]="">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
+</p-splitter>
+
+<ng-template #fullScreen>
+  <div class="w-full h-screen">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

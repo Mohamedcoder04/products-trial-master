@@ -1,0 +1,61 @@
+<div class="flex flex-col">
+  <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 border-b-2">
+    <div class="text-lg font-medium">
+      {{ data ? 'Modifier' : 'Ajouter' }} un Produit
+    </div>
+  </div>
+
+  <form class="pe-5 ps-5 pt-4 pb-2 mb-0" [formGroup]="productForm">
+    <mat-form-field class="w-full mb-1">
+      <mat-label>Nom</mat-label>
+      <input matInput placeholder="Nom" formControlName="name">
+      <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+        Le nom est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-1">
+      <mat-label>Prix</mat-label>
+      <input matInput placeholder="Prix" formControlName="price">
+      <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+        Le prix est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-1">
+      <mat-label>Description</mat-label>
+      <input matInput placeholder="Description" formControlName="description">
+      <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+        La description est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-1">
+      <mat-label>Catégorie</mat-label>
+      <input matInput placeholder="Catégorie" formControlName="category">
+      <mat-error *ngIf="productForm.get('category')?.hasError('required')">
+        La catégorie est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+
+  <div class="flex justify-end px-6 py-3 space-x-2 border-t-2">
+    <button
+      mat-ripple
+      class="flex items-center justify-between space-x-0.5 px-4 w-auto bg-gray-500 border-2 rounded h-10 text-white font-bold"
+      type="button"
+      [mat-dialog-close]="false">
+      Annuler
+    </button>
+    <button
+      mat-ripple
+      class="flex items-center justify-between space-x-0.5 px-4 w-auto bg-primary border-2 border-primary rounded h-10 text-white font-bold"
+      type="button"
+      (click)="onFormSubmit()">
+      {{ data ? 'Modifier' : 'Ajouter' }}
+    </button>
+  </div>
+
+</div>
+

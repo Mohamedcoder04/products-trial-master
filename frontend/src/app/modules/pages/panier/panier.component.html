@@ -1,0 +1,24 @@
+<button class="relative pt-2 pe-2 rounded-full" [matMenuTriggerFor]="userActions">
+  <i class="pi pi-shopping-cart" style="font-size: 2rem"></i>
+  <span
+    class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full"
+  >
+      {{ dataSource.data ? dataSource.data.length : 0 }}
+    </span>
+
+</button>
+
+
+<mat-menu
+  [xPosition]="'before'"
+  #userActions="matMenu">
+  <app-generic-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [actions]="actions"
+    [includeFilters]="false"
+    [includePagination]="false"
+    (actionTaken)="triggerActions($event)"
+  >
+  </app-generic-table>
+</mat-menu>

@@ -1,0 +1,18 @@
+<button class="flex items-center mt-2"
+        mat-icon-button
+        [matMenuTriggerFor]="userActions">
+    <span class="relative">
+        <i class="pi pi-user" style="font-size: 1.6rem"></i>
+    </span>
+</button>
+
+<mat-menu
+  [xPosition]="'before'"
+  #userActions="matMenu">
+  <button
+    mat-menu-item
+    (click)="signOut()">
+    <mat-icon [svgIcon]="'heroicons_solid:logout'"></mat-icon>
+    <span>Sign out</span>
+  </button>
+</mat-menu>

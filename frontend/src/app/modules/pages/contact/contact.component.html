@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="card col-md-10 mx-auto mt-5" style="min-height: 400px !important;">
+    <h1 class="text-center card-header p-3">
+      <strong>Contact Us</strong>
+    </h1>
+    <form class="pe-5 ps-5 pt-4 pb-2 mb-0" [formGroup]="contactForm">
+      <mat-form-field class="w-full mb-1">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email">
+        <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
+          L'Email est obligatoire
+        </mat-error>
+        <mat-error *ngIf="contactForm.get('email')?.hasError('invalidEmail')">
+          L'email doit être au format "nom&#64;exemple.com".
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-full mb-1">
+        <mat-label>Message</mat-label>
+        <textarea matInput formControlName="message"></textarea>
+        <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
+          Le message est obligatoire
+        </mat-error>
+        <mat-error *ngIf="contactForm.get('message')?.hasError('maxlength')">
+          Le message doit être inférieur à 300 caractères
+        </mat-error>
+      </mat-form-field>
+    </form>
+    <div class="flex justify-center px-6 py-3 space-x-2 border-t-2">
+      <button
+        mat-ripple
+        class="flex items-center justify-between space-x-0.5 px-4 w-auto bg-primary border-2 border-primary rounded h-10 text-white font-bold"
+        type="button"
+        (click)="onFormSubmit()">
+        Envoyer
+      </button>
+    </div>
+  </div>
+</div>

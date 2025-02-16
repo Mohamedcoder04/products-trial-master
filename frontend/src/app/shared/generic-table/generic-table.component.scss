@@ -1,0 +1,36 @@
+.mat-mdc-table
+{
+  background-color:transparent!important;
+}
+.mat-mdc-select {
+  width: 20px;
+  padding: 0 !important;
+}
+
+table {
+  width: 100%;
+}
+table tr td:first-child,
+table tr th:first-child {
+  border-left: 1px solid #e2e8f0 !important;
+}
+table tr td:last-child,
+table tr th:last-child {
+  border-right: 1px solid #e2e8f0 !important;
+}
+table tr th {
+  border-top: 1px solid #e2e8f0 !important;
+}
+table tr:last-child {
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.mat-mdc-menu-item:has(.material-icons,mat-icon,[matButtonIcon]){
+  padding-left: 12px !important;
+  padding-right: 0px !important;
+}
+
+.mat-mdc-outlined-button>.mat-icon {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
